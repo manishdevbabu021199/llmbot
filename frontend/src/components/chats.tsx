@@ -51,18 +51,6 @@ export default function ChatInterface() {
             </button>
           ))}
         </div>
-        <div className="chat-messages">
-          {messages.map((msg: any, index: any) => (
-            <div
-              key={index}
-              className={`chat-message ${
-                msg.sender === "user" ? "user-message" : "bot-message"
-              }`}
-            >
-              {msg.text}
-            </div>
-          ))}
-        </div>
         <div className="flex items-center chat-input-container">
           <textarea
             value={input}
