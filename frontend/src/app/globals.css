@@ -20,7 +20,30 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(236.23deg, #ffffff 0.4%, #edffc9 214.47%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Darker Grotesque", sans-serif;
+}
+
+.lexend {
+  font-family: "Lexend", sans-serif;
+}
+.section-header {
+  text-align: left;
+  color: black;
+  font-size: clamp(18px, 2.5vw, 25px);
+  font-weight: 500;
+}
+
+.selectBox {
+  width: 100px;
+  color: black;
+  padding: 2px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dropdown-arrow {
+  width: 8px;
+  height: 5px;
 }

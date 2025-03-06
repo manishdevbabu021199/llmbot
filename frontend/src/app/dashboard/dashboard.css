@@ -1,0 +1,100 @@
+/* Main grid container */
+.dashboard-container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar main-content";
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px; /* Space between grid items */
+  padding: 20px;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s ease;
+}
+
+.header {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 15px 30px;
+  border: 1px solid #8a8a8a;
+}
+
+/* Collapsed sidebar */
+.dashboard-container.collapsed {
+  grid-template-columns: 60px 1fr;
+}
+
+/* Floating effect for all sections */
+
+.main-content {
+  width: 100%;
+  height: 100%;
+}
+.sidebar {
+  background: white;
+  border-radius: 15px;
+  border: 1px solid #8a8a8a;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  grid-area: header;
+}
+
+/* Sidebar */
+.sidebar {
+  grid-area: sidebar;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+  overflow: hidden;
+  padding: 0px;
+}
+
+/* Main content */
+.main-content {
+  grid-area: main-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Inner grid inside main content */
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    "box1 box2 box3"
+    "box4 box4 box4";
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 200px calc(100% - 215px);
+  gap: 15px;
+  width: 100%;
+  height: 100%;
+  max-width: 97%;
+}
+
+/* Floating effect for boxes */
+.box {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #8a8a8a;
+  height: 100%;
+}
+
+.box1 {
+  grid-area: box1;
+}
+.box2 {
+  grid-area: box2;
+}
+.box3 {
+  grid-area: box3;
+}
+.box4 {
+  grid-area: box4;
+}

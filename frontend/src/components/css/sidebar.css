@@ -1,0 +1,84 @@
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #cccccc;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+.menuHeading {
+  font-size: 23px;
+  color: black;
+  width: 90%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+ul li:hover {
+  background-color: #edffc9;
+  cursor: pointer;
+}
+
+.sidebar.collapsed ul {
+  align-items: center;
+}
+
+.menu-item {
+  font-size: 15px;
+  color: #000;
+  font-weight: 500;
+}
+
+.menu-item-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.collapsed-center {
+  justify-content: center;
+}
+
+.noncollapsedPad {
+  padding: 5px 10px;
+}
+
+.upgrade {
+  background: #edffc9;
+  border-radius: 20px;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.upgrade-heading-container {
+  display: flex;
+  gap: 10px;
+  color: black;
+  min-width: 100px;
+}
+
+.upgrade-content {
+  font-size: 12px;
+  font-weight: 500;
+  color: black;
+  white-space: normal; /* Ensures the text wraps normally */
+  word-wrap: break-word;
+  width: 170px; /* Restricts width to prevent excessive line breaks */
+  line-height: 1.4; /* Adjust for better readability */
+  display: block;
+}
+
+.upgrade-collapsed {
+  display: flex;
+  justify-content: center;
+}
+
+.logout {
+  color: red !important;
+}

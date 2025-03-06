@@ -1,0 +1,53 @@
+.task {
+  border-radius: 5px;
+  background-color: #f4f4f4;
+}
+
+.task-header {
+  text-align: left;
+  color: black;
+  font-size: clamp(18px, 2.5vw, 25px);
+  font-weight: 500;
+}
+
+.task-name {
+  color: #a6a6a6;
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 500;
+  /* width: 80%; */
+  text-align: left;
+  padding-top: 3px;
+  text-decoration: underline;
+  text-decoration-color: #a6a6a6;
+}
+
+.task-content {
+  color: #000;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 600;
+  text-align: left;
+}
+
+.scroll-container {
+  max-height: 120px; /* Limits the height */
+  overflow-y: scroll; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  scrollbar-gutter: stable; /* Keeps the scrollbar space always visible */
+}
+
+.task:nth-child(odd) {
+  background: #f4f4f4;
+}
+.task:nth-child(even) {
+  background: #ffb40033;
+}
+
+.task-raised {
+  font-size: 9px;
+  color: #000;
+}
+
+.group-image {
+  width: 20px;
+  height: 20px;
+}

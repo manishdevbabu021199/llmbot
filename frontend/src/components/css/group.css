@@ -1,0 +1,48 @@
+.group {
+  padding: 6px 0.5px;
+  border-radius: 5px;
+}
+
+.group-header {
+  text-align: left;
+  color: black;
+  font-size: clamp(18px, 2.5vw, 25px);
+  font-weight: 500;
+}
+
+.group-name {
+  color: black;
+  font-size: clamp(13px, 1.2vw, 16.5px);
+  font-weight: 500;
+  width: 80%;
+  text-align: left;
+}
+
+.group-image {
+  border-radius: 50%;
+  width: 10%;
+}
+
+.scroll-container {
+  max-height: 120px; /* Limits the height */
+  overflow-y: scroll; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  scrollbar-gutter: stable; /* Keeps the scrollbar space always visible */
+}
+
+.group-count {
+  padding: 0.5px 5px;
+  position: absolute;
+  left: 90%;
+  color: #000000;
+  font-weight: 500;
+  font-size: 9px;
+  background-color: #cbcbcb;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid #c2c2c2;
+}
+
+.group:first-child {
+  background: #e639463d;
+}
