@@ -1,3 +1,4 @@
+import hashlib
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, Header
 import firebase_admin
@@ -39,13 +40,26 @@ def login_user(user: UserLogin):
         response = requests.post(url, json=payload)
 
         if response.status_code != 200:
-            return {"error": "Invalid email or password"}
+            error_data = response.json()
+            error_message = error_data.get("error", {}).get(
+                "message", "An error occurred")
+            raise HTTPException(status_code=400, detail=error_message)
 
         data = response.json()
-        return {"id_token": data["idToken"], "refresh_token": data["refreshToken"]}
+
+        email_hash = hashlib.md5(
+            user.email.strip().lower().encode()).hexdigest()
+        avatar_url = f"https://www.gravatar.com/avatar/{email_hash}?d=identicon"
+
+        return {
+            "email": user.email,
+            "avatar_url": avatar_url,
+            "id_token": data["idToken"],
+            "refresh_token": data["refreshToken"]
+        }
 
     except Exception as e:
-        return {"error": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 def verify_token(authorization: str = Header(None)):

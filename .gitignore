@@ -134,3 +134,7 @@ dist
 
 /backend/app/.env
 /backend/app/config/
+
+__pycache__/
+*.pyc
+*.pyo
