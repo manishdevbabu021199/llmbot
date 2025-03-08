@@ -61,6 +61,15 @@ def get_group(group_id: str):
 
     return doc.to_dict()
 
+# Get details of all group (Protected)
+
+
+@router.get("/groups", dependencies=[Depends(verify_token)])
+def get_escalations():
+    groups = db.collection("groups").stream()
+    return [{"groupID": group.id, **group.to_dict()} for group in groups]
+
+
 # Mark a message as read (Protected)
 
 

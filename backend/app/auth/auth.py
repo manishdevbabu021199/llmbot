@@ -71,6 +71,62 @@ def verify_token(authorization: str = Header(None)):
     token = authorization.split("Bearer ")[-1]
     try:
         decoded_token = auth.verify_id_token(token)
-        return decoded_token  # Returns user details (UID, email, etc.)
+        return decoded_token
     except Exception as e:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+
+@router.get("/auth/validate-token")
+def validate_token(authorization: str = Header(None)):
+    if not authorization:
+        raise HTTPException(
+            status_code=401, detail="Authorization token missing")
+
+    token = authorization.split("Bearer ")[-1]
+
+    try:
+        decoded_token = auth.verify_id_token(token)
+        return {"message": "Token is valid"}
+
+    except firebase_admin.auth.ExpiredIdTokenError:
+        raise HTTPException(
+            status_code=401, detail="ID token has expired. Use refresh token to get a new one.")
+
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+
+@router.post("/auth/refresh-token")
+def refresh_token(refresh_token: str):
+    try:
+        # 🔹 Firebase API to refresh token
+        url = f"https://securetoken.googleapis.com/v1/token?key={FIREBASE_API_KEY}"
+        payload = {"grant_type": "refresh_token",
+                   "refresh_token": refresh_token}
+        response = requests.post(url, data=payload)
+
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=401, detail="Invalid refresh token")
+
+        data = response.json()
+
+        # 🔹 Get new ID Token & Fetch User Profile
+        new_id_token = data["id_token"]
+        decoded_token = auth.verify_id_token(new_id_token)
+        user_profile = auth.get_user(decoded_token["uid"])
+
+        # 🔹 Generate avatar URL (Gravatar)
+        email_hash = hashlib.md5(
+            user_profile.email.strip().lower().encode()).hexdigest()
+        avatar_url = f"https://www.gravatar.com/avatar/{email_hash}?d=identicon"
+
+        return {
+            "email": user_profile.email,
+            "avatar_url": avatar_url,
+            "id_token": new_id_token,
+            "refresh_token": data["refresh_token"]
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

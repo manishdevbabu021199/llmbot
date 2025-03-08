@@ -47,7 +47,8 @@
   color: #000;
 }
 
-.group-image {
-  width: 20px;
-  height: 20px;
+
+.no-task {
+  font-size: 15px;
+  color: #494949;
 }

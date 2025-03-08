@@ -2,14 +2,30 @@
 
 import "./login.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+// import userAuthStore from "../_store/authStore";
 import { APIConstants } from "../api.constants";
+import { useRouter } from "next/navigation";
+import { Helper } from "../_helper/helper";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  //   const { setUser } = userAuthStore(); // Zustand state sette
+  const router = useRouter();
+
+  useEffect(() => {
+    // const validateToken = async () => {
+    //   const helper = new Helper();
+    //   const data = await helper.funValidateToken();
+    //   if (data) {
+    //     router.push("/dashboard");
+    //   }
+    // };
+    // validateToken();
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -20,7 +36,9 @@ export default function Login() {
       });
 
       console.log("response", response);
-      alert("Login successful!");
+      // setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed. Try again.");
     }
@@ -30,7 +48,7 @@ export default function Login() {
     <div className="flex flex-col justify-center items-center login-page">
       <div className="flex flex-col gap-2 login-container">
         <h3 className="section-header">Login</h3>
-        <div className="flex flex-col gap-1 scroll-container">
+        <div className="flex flex-col gap-1">
           <div className="flex flex-col gap-1">
             <label className="input-label">Email</label>
             <input

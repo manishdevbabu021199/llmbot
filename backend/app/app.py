@@ -4,6 +4,7 @@ from auth.auth import router as auth_router
 from task.task import router as task_router
 from escalation.escalation import router as escalation_router
 from group.group import router as group_router
+from chat.chat import router as chat_router
 import os
 from dotenv import load_dotenv
 
@@ -29,6 +30,7 @@ app.include_router(auth_router)
 app.include_router(task_router)
 app.include_router(escalation_router)
 app.include_router(group_router)
+app.include_router(chat_router)
 
 
 @app.get("/")

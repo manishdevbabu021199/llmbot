@@ -67,15 +67,15 @@
 }
 
 .escalation:first-child {
-  background: #e639463d;
+  background: #e639462b;
 }
 
 .escalation-raised {
-  font-size: 9px;
+  font-size: 10.5px;
   color: #000;
 }
 
-.group-image {
+.escalation-image {
   width: 20px;
   height: 20px;
 }

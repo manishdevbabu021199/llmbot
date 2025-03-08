@@ -1,28 +1,26 @@
-"use client";
-import { useEffect, useState } from "react";
-import { MockData } from "./mockData";
 import "./css/tasks.css";
-import Image from "next/image";
-export default function Tasks() {
-  const [groups, setGroups]: any = useState([]);
-  useEffect(() => {
-    setGroups(MockData.groupData);
-    console.log(groups);
-  }, []);
+export default function Tasks({ tasks }: any) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full h-full">
       <div className="flex flex-row gap-2 items-center">
         <h3 className="task-header">Tasks</h3>
       </div>
-      <div className="flex flex-col gap-1 scroll-container">
-        {groups.map((task: any) => (
-          <div key={task.GroupID} className="flex flex-col task p-1 relative">
-            <div>
-              <h5 className="task-content">Channel the playground is ..</h5>
-              <div className="task-name">view conversation</div>
+      <div className="flex flex-col gap-1 scroll-container w-full h-full">
+        {tasks.length > 0 ? (
+          tasks.map((task: any) => (
+            <div
+              key={task.taskid}
+              className="flex flex-col task p-1 relative cursor-pointer"
+            >
+              <div>
+                <h5 className="task-content">{task.taskname}</h5>
+                <div className="task-name">view conversation</div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <h5 className="no-task pt-10">No Tasks</h5>
+        )}
       </div>
     </div>
   );

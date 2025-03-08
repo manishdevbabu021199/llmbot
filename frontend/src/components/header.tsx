@@ -1,15 +1,31 @@
 import Image from "next/image";
 import "./css/header.css";
 
-export default function Header() {
+function toSentenceCase(str: string) {
+  if (!str) return "";
+  str = str.trim();
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export default function Header({ userDetails }: any) {
+  if (!userDetails?.avatar_url) return null;
+
   return (
     <div className="header-container flex items-center">
       <div className="profile-image">
-        <Image src="/assets/image.png" alt="Profile" width={60} height={60} />
+        <Image
+          src={`https://avatar.iran.liara.run/public/boy?username=${userDetails?.email}`}
+          alt="Profile"
+          width={60}
+          height={60}
+          unoptimized
+        />
       </div>
 
       <div className="greeting-text">
-        <h4 className="greeting-title">Good Morning, Manish</h4>
+        <h4 className="greeting-title">
+          Good Morning, {toSentenceCase(userDetails?.email.split("@")[0])}
+        </h4>
         <p className="greeting-message">Hope your day goes organized!</p>
       </div>
 

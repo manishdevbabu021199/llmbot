@@ -86,6 +86,10 @@
   height: 100%;
 }
 
+.box-slidder {
+  border: none;
+}
+
 .box1 {
   grid-area: box1;
 }
