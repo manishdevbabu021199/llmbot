@@ -16,7 +16,23 @@ origins = [
     "http://127.0.0.1:3001"
 ]
 
-app = FastAPI()
+app = FastAPI(
+    title="LLM API",
+    description="""
+# Welcome to My API 🚀
+
+This is the **official documentation** for the API.
+
+- **Authentication**: Handles user authentication
+- **Tasks**: Manages user tasks
+- **Escalations**: Handles escalation workflows
+- **Groups**: Manages user groups
+- **Chat**: Handles messaging functionalities
+""",
+    version="1.0.0"
+)
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
