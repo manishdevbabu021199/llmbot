@@ -67,10 +67,10 @@ ul li:hover {
   font-size: 12px;
   font-weight: 500;
   color: black;
-  white-space: normal; /* Ensures the text wraps normally */
+  white-space: normal;
   word-wrap: break-word;
-  width: 170px; /* Restricts width to prevent excessive line breaks */
-  line-height: 1.4; /* Adjust for better readability */
+  width: 170px; 
+  line-height: 1.4; 
   display: block;
 }
 

@@ -1,15 +1,24 @@
 import Image from "next/image";
 import "./css/header.css";
+import { Helper } from "@/app/_helper/helper";
 
-function toSentenceCase(str: string) {
-  if (!str) return "";
-  str = str.trim();
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+function getGreeting() {
+  const hour = new Date().getHours(); // Get the current hour
+
+  if (hour >= 6 && hour < 12) {
+    return "Good Morning,";
+  } else if (hour >= 12 && hour < 18) {
+    return "Good Afternoon,";
+  } else if (hour >= 18 && hour < 22) {
+    return "Good Evening,";
+  } else {
+    return "Good Night,";
+  }
 }
 
 export default function Header({ userDetails }: any) {
   if (!userDetails?.avatar_url) return null;
-
+  const helper = new Helper();
   return (
     <div className="header-container flex items-center">
       <div className="profile-image">
@@ -24,7 +33,8 @@ export default function Header({ userDetails }: any) {
 
       <div className="greeting-text">
         <h4 className="greeting-title">
-          Good Morning, {toSentenceCase(userDetails?.email.split("@")[0])}
+          {getGreeting()}{" "}
+          {helper.toSentenceCase(userDetails?.email.split("@")[0])}
         </h4>
         <p className="greeting-message">Hope your day goes organized!</p>
       </div>

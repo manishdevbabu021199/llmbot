@@ -1,10 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
-import { MockData } from "./mockData";
+import { useState } from "react";
 import "./css/group.css";
 import Image from "next/image";
 
 export default function Groups({ groups }: any) {
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div className="flex flex-col gap-2">
       <div>

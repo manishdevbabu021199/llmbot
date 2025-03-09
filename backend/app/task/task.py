@@ -3,7 +3,7 @@ from firebase_admin import firestore
 from pydantic import BaseModel
 from datetime import datetime
 import uuid
-from auth.auth import verify_token  # Import token verification
+from auth.auth import verify_token  
 
 db = firestore.client()
 router = APIRouter()
@@ -14,19 +14,19 @@ class TaskCreate(BaseModel):
 
 
 class TaskUpdate(BaseModel):
-    completed_date: str  # YYYY-MM-DD format
+    completed_date: str  
 
 # Create a task
 
 
 @router.post("/tasks/add", dependencies=[Depends(verify_token)])
 def add_task(task: TaskCreate, user_data=Depends(verify_token)):
-    task_id = str(uuid.uuid4())  # Unique task ID
+    task_id = str(uuid.uuid4())  
     task_data = {
         "taskid": task_id,
         "taskname": task.taskname,
         "added_date": datetime.utcnow().strftime("%Y-%m-%d"),
-        "completed_date": datetime.utcnow().strftime("%Y-%m-%d"),
+        "completed_date": None,
         "username": user_data["email"],
         "userid": user_data["uid"],
     }

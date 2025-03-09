@@ -2,41 +2,26 @@
 
 import "./login.css";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-// import userAuthStore from "../_store/authStore";
 import { APIConstants } from "../api.constants";
 import { useRouter } from "next/navigation";
-import { Helper } from "../_helper/helper";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  //   const { setUser } = userAuthStore(); // Zustand state sette
   const router = useRouter();
 
-  useEffect(() => {
-    // const validateToken = async () => {
-    //   const helper = new Helper();
-    //   const data = await helper.funValidateToken();
-    //   if (data) {
-    //     router.push("/dashboard");
-    //   }
-    // };
-    // validateToken();
-  }, []);
 
   const handleLogin = async () => {
     try {
-      const payload = { email: email, password: password }; // Custom payload format
+      const payload = { email: email, password: password }; 
 
       const response = await axios.post(APIConstants.LOGIN, payload, {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("response", response);
-      // setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
       router.push("/dashboard");
     } catch (err: any) {

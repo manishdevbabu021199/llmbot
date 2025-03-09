@@ -1,24 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const Dropdown = ({ options, onSelect }: any) => {
-  const [selected, setSelected] = useState(options[0] || "");
+  const [selected, setSelected] = useState(options[0] || { id: "", value: "" });
+
+  useEffect(() => {
+    const savedDataset = sessionStorage.getItem("selectedOption");
+    if (savedDataset) {
+      setSelected(JSON.parse(savedDataset));
+      onSelect(JSON.parse(savedDataset));
+    }
+  }, []);
 
   const handleChange = (event: any) => {
-    setSelected(event.target.value);
-    onSelect(event.target.value);
+    const selectedOption = options.find(
+      (option: any) => option.id === event.target.value
+    );
+    if (selectedOption) {
+      setSelected(selectedOption);
+      onSelect(selectedOption);
+    }
   };
 
   return (
     <div className="flex items-start flex-row relative">
       <select
         className="selectBox border border-black rounded-none appearance-none bg-white cursor-pointer"
-        value={selected}
+        value={selected.id}
         onChange={handleChange}
       >
-        {options.map((option: any, index: any) => (
-          <option key={index} value={option}>
-            {option}
+        {options.map((option: any) => (
+          <option key={option.id} value={option.id}>
+            {option.value}
           </option>
         ))}
       </select>

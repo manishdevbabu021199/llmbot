@@ -69,10 +69,11 @@ const Dashboard = () => {
           </div>
           <div className="box box4">
             {isIntialised ? (
-              <Chats userDetails={user} groups={group}></Chats>
+               <Chats userDetails={user} groups={group}></Chats>
             ) : (
               <Shimmer></Shimmer>
             )}
+           
           </div>
         </div>
       </main>

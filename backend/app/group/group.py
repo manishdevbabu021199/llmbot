@@ -32,10 +32,8 @@ def add_group(group: GroupCreate, user_data=Depends(verify_token)):
 def add_message(group_id: str, message: MessageCreate, user_data=Depends(verify_token)):
     doc_ref = db.collection("groups").document(group_id)
     doc = doc_ref.get()
-
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Group not found")
-
     message_id = f"M{uuid.uuid4().hex[:6]}"  # Generate a unique message ID
     new_message = {
         "MessageId": message_id,
@@ -55,7 +53,6 @@ def add_message(group_id: str, message: MessageCreate, user_data=Depends(verify_
 def get_group(group_id: str):
     doc_ref = db.collection("groups").document(group_id)
     doc = doc_ref.get()
-
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Group not found")
 
@@ -78,7 +75,6 @@ def mark_message_as_read(group_id: str, message_id: str, user_data=Depends(verif
     user_id = user_data["uid"]
     read_ref = db.collection("groups").document(
         group_id).collection("read_messages")
-
     read_ref.document(f"{user_id}_{message_id}").set(
         {"userID": user_id, "messageID": message_id})
     return {"message": f"Message {message_id} marked as read by {user_id}"}

@@ -60,10 +60,10 @@
 }
 
 .scroll-container {
-  max-height: 120px; /* Limits the height */
-  overflow-y: scroll; /* Enables vertical scrolling */
-  overflow-x: hidden; /* Prevents horizontal scrolling */
-  scrollbar-gutter: stable; /* Keeps the scrollbar space always visible */
+  max-height: 120px; 
+  overflow-y: scroll; 
+  overflow-x: hidden; 
+  scrollbar-gutter: stable; 
 }
 
 .escalation:first-child {

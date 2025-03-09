@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from firebase_admin import firestore
 from pydantic import BaseModel
 import uuid
-from auth.auth import verify_token  # Import authentication middleware
+from auth.auth import verify_token  
 from .models import EscalationCreate
 
 db = firestore.client()
@@ -18,8 +18,8 @@ def add_escalation(escalation: EscalationCreate, user_data=Depends(verify_token)
         "escalationID": escalation_id,
         "escalationName": escalation.escalationName,
         "escalationDomain": escalation.escalationDomain,
-        "username": user_data["email"],  # Extract username from token
-        "userid": user_data["uid"],  # Extract user ID from token
+        "username": user_data["email"],  
+        "userid": user_data["uid"],  
     }
 
     db.collection("escalations").document(escalation_id).set(escalation_data)

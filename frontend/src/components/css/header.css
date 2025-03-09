@@ -13,17 +13,16 @@
   overflow: hidden;
 }
 
-/* Greeting Title (Good Morning, Manish) */
 .greeting-title {
   font-weight: 500;
-  font-size: clamp(24px, 3vw, 35px); /* Adjusts between 24px and 35px */
+  font-size: clamp(24px, 3vw, 35px);
   color: black;
   line-height: 1.1;
 }
 
 /* Greeting Message (Hope your day goes organized) */
 .greeting-message {
-  font-size: clamp(12px, 1.5vw, 14px); /* Adjusts between 12px and 14px */
+  font-size: clamp(12px, 1.5vw, 14px);
   color: gray;
 }
 

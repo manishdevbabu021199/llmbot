@@ -5,6 +5,8 @@ import "./css/chatinterface.css";
 import Image from "next/image";
 import Dropdown from "./utility/dropdown";
 import { APIConstants } from "@/app/api.constants";
+import apiClient from "./utility/api/apiClient";
+import { Helper } from "@/app/_helper/helper";
 
 export default function ChatInterface({ userDetails, groups }: any) {
   const [input, setInput] = useState("");
@@ -15,22 +17,43 @@ export default function ChatInterface({ userDetails, groups }: any) {
   const [dataset, setDataset]: any = useState();
 
   const suggestedQuestions = [
-    "What are your services?",
-    "How can I contact support?",
-    "Tell me about your pricing.",
+    "“what are my tasks due today”",
+    "“what’s happening with xyz client ”",
+    "“who has been sick the most”",
   ];
+  const helper = new Helper();
 
   useEffect(() => {
-    let tempOptions = ["All Groups"];
-    console.log(groups);
+    let tempOptions = [{ id: "groups", value: "All Groups" }];
     groups.forEach((group: any) => {
       console.log(group.GroupName);
-      tempOptions.push(group.GroupName);
+      tempOptions.push({ id: group.groupID, value: group.GroupName });
     });
-    tempOptions.push("Tasks");
-    tempOptions.push("Escalations");
+    tempOptions.push({ id: "tasks", value: "Tasks" });
+    tempOptions.push({ id: "escalations", value: "Escalations" });
     setOptions(tempOptions);
+
+    // Load stored state from sessionStorage
+    const savedMessages = sessionStorage.getItem("chatMessages");
+    const savedDataset = sessionStorage.getItem("selectedOption");
+
+    if (savedMessages) {
+      console.log(savedMessages);
+      setMessages(JSON.parse(savedMessages));
+      setHasStartedChat(true);
+    }
+
+    if (savedDataset) {
+      console.log(savedDataset);
+      setDataset(JSON.parse(savedDataset));
+    } else {
+      setDataset(tempOptions[0]);
+    }
   }, []);
+
+  const boldText = (text) => {
+    return text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+  };
 
   const simulateTyping = (text, callback) => {
     let index = 0;
@@ -38,14 +61,23 @@ export default function ChatInterface({ userDetails, groups }: any) {
     const lines = text.split("\n");
     const interval = setInterval(() => {
       if (index < lines.length) {
-        setTypingMessage((prev) => [...prev, lines[index]]);
+        const line = lines[index];
+        setTypingMessage((prev) => [...prev, line]);
         index++;
       } else {
         clearInterval(interval);
         callback();
       }
-    }, 500);
+    }, 700);
   };
+
+  const clear = () => {
+    setMessages([]);
+    setHasStartedChat(false);
+    sessionStorage.removeItem("chatMessages");
+    sessionStorage.removeItem("selectedOption");
+  };
+
   const sendMessage = async (message) => {
     if (!message.trim()) return;
 
@@ -60,9 +92,8 @@ export default function ChatInterface({ userDetails, groups }: any) {
     ];
     setMessages(updatedMessages);
     setInput("");
-
     try {
-      const response = await axios.post(APIConstants.CHATS, {
+      const response = await apiClient.post(APIConstants.CHATS, {
         data: dataset,
         message,
         history: updatedMessages.map(({ content, role }) => ({
@@ -73,15 +104,20 @@ export default function ChatInterface({ userDetails, groups }: any) {
 
       if (response.data) {
         simulateTyping(response.data, () => {
-          setMessages([
+          const newMessages = [
             ...updatedMessages,
             {
               content: response.data,
               role: "system",
               time: new Date().toLocaleTimeString(),
             },
-          ]);
+          ];
+          setMessages(newMessages);
           setTypingMessage([]);
+
+          // Save the updated messages and dataset to sessionStorage
+          sessionStorage.setItem("chatMessages", JSON.stringify(newMessages));
+          sessionStorage.setItem("selectedOption", JSON.stringify(dataset));
         });
       }
     } catch (error) {
@@ -97,7 +133,10 @@ export default function ChatInterface({ userDetails, groups }: any) {
           <div className="flex justify-center items-center">
             <Dropdown
               options={options}
-              onSelect={(value) => setDataset(value)}
+              onSelect={(value) => {
+                setDataset(value);
+                sessionStorage.setItem("selectedOption", JSON.stringify(value)); // Save to sessionStorage
+              }}
             />
           </div>
         </div>
@@ -105,7 +144,9 @@ export default function ChatInterface({ userDetails, groups }: any) {
       <div className="chat-body">
         {!hasStartedChat && (
           <div className="chat-header-text-box">
-            <p className="chat-title">Hi, John</p>
+            <p className="chat-title">
+              Hi, {helper.toSentenceCase(userDetails?.email.split("@")[0])}
+            </p>
             <p className="chat-title">How can I help you?</p>
           </div>
         )}
@@ -181,6 +222,15 @@ export default function ChatInterface({ userDetails, groups }: any) {
             <Image
               className="send-image"
               src="/assets/chat/send.png"
+              alt="Send"
+              width={20}
+              height={20}
+            />
+          </button>
+          <button onClick={() => clear()} className="chat-send-button">
+            <Image
+              className="send-image"
+              src="/assets/chat/clear.png"
               alt="Send"
               width={20}
               height={20}

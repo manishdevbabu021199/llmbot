@@ -8,6 +8,7 @@
   color: black;
   font-size: clamp(18px, 2.5vw, 25px);
   font-weight: 500;
+  width: 90%;
 }
 
 .task-name {
@@ -29,10 +30,10 @@
 }
 
 .scroll-container {
-  max-height: 120px; /* Limits the height */
-  overflow-y: scroll; /* Enables vertical scrolling */
-  overflow-x: hidden; /* Prevents horizontal scrolling */
-  scrollbar-gutter: stable; /* Keeps the scrollbar space always visible */
+  max-height: 120px; 
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 .task:nth-child(odd) {
@@ -46,7 +47,6 @@
   font-size: 9px;
   color: #000;
 }
-
 
 .no-task {
   font-size: 15px;
