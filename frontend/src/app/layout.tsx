@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "LMM App",
   description: "lmm app created by manish",
+  icons: {
+    icon: "favicon.png",
+  },
 };
 
 export default function RootLayout({

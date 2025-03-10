@@ -15,6 +15,7 @@ GROQ_API_URL = os.getenv("GROQ_API_URL")
 
 encoder = tiktoken.get_encoding("cl100k_base")
 
+
 def retrieve_data_from_firestore(data_filter: DataFilter, userid: str):
     data_list = []
 
@@ -22,7 +23,7 @@ def retrieve_data_from_firestore(data_filter: DataFilter, userid: str):
         # If the id is 'tasks', fetch only the tasks of the specific user
         docs = db.collection("tasks").where("userid", "==", userid).stream()
         for doc in docs:
-            data = doc.to_dict()  
+            data = doc.to_dict()
             data_list.append(data)
     elif data_filter.id in ["groups", "escalations"]:
         # If the id is 'groups'| 'escalations'
@@ -51,7 +52,7 @@ def chat_with_groq(request: ChatRequest, user_data=Depends(verify_token)):
     context_type = "tasks" if request.data.id == "tasks" else request.data.id
 
     messages = [
-        {"role": "system", "content": f"You are an AI assistant. You should respond with relevant details about {context_type}. You can also provide additional context or code snippets when needed, also try to summarize when user asks for something dont just read the data, also don't reveal id fields and sensitive data"},
+        {"role": "system", "content": f"You are an AI assistant. You should respond with relevant details about {context_type}. You can also provide additional context or code snippets when needed, also try to summarize when user asks for something dont just read the data, also don't reveal id fields, sensitive data and field names. Don't style the texts"},
         {"role": "user", "content": f"My {context_type} details are:\n{response_data}\nNow, {request.message}"}
     ] + request.history
 
