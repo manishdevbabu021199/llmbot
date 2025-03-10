@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [escalation, setEscalation]: any = useState([]);
   const [group, setGroups]: any = useState([]);
   const [isIntialised, setisIntialised] = useState(false);
-  const [isChatExpanded, setIsChatExpanded] = useState(false); // Track chat expansion state
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -27,7 +27,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const IntialisePage = async () => {
-      console.log("oo");
       const dashboardService = new DashboardService();
       const taskData = await dashboardService.funGetTasks();
       const escalationData = await dashboardService.funGetEscalations();
@@ -43,7 +42,7 @@ const Dashboard = () => {
   if (!user.email) return null;
 
   const toggleChatExpansion = () => {
-    setIsChatExpanded((prevState) => !prevState); // Toggle chat expansion
+    setIsChatExpanded((prevState) => !prevState);
   };
 
   return (
@@ -96,14 +95,23 @@ const Dashboard = () => {
               <Shimmer></Shimmer>
             )}
             <button className="expand-toggle" onClick={toggleChatExpansion}>
-              {/* {isChatExpanded ? "Minimize" : "Expand"} */}
-              <Image
-                src="/assets/chat/expand.png"
-                alt="system"
-                width={20}
-                height={20}
-                unoptimized
-              />
+              {isChatExpanded ? (
+                <Image
+                  src="/assets/chat/mini.svg"
+                  alt="system"
+                  width={20}
+                  height={20}
+                  unoptimized
+                />
+              ) : (
+                <Image
+                  src="/assets/chat/expand.png"
+                  alt="system"
+                  width={20}
+                  height={20}
+                  unoptimized
+                />
+              )}
             </button>
           </div>
         </div>

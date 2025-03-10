@@ -39,7 +39,7 @@
   color: #a6a6a6;
   font-size: clamp(10px, 1vw, 12px);
   font-weight: 500;
-  /* width: 80%; */
+
   text-align: left;
   line-height: 0.3;
   padding-top: 3px;
@@ -60,10 +60,10 @@
 }
 
 .scroll-container {
-  max-height: 120px; 
-  overflow-y: scroll; 
-  overflow-x: hidden; 
-  scrollbar-gutter: stable; 
+  max-height: 120px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 .escalation:first-child {

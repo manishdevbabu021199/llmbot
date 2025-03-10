@@ -13,7 +13,6 @@ export class DashboardService {
   async funGetEscalations() {
     try {
       const escalations = await apiClient.get(APIConstants.GET_ESCALTIONS);
-      console.log("escalations", escalations);
       return escalations;
     } catch {
       return null;
@@ -22,7 +21,6 @@ export class DashboardService {
   async funGetGroups() {
     try {
       const groups = await apiClient.get(APIConstants.GET_GROUPS);
-      console.log("groups", groups);
       return groups;
     } catch {
       return null;

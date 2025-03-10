@@ -3,14 +3,13 @@ import "./css/popup.css";
 import apiClient from "./utility/api/apiClient";
 import { APIConstants } from "@/app/api.constants";
 const Popup = ({ isOpen, togglePopup, addTask }: any) => {
-  const [task, setTask] = useState(""); // State to manage task input
+  const [task, setTask] = useState("");
   const [taskAdded, setTaskAdded] = useState(false);
-  // Handle input change
+
   const handleChange = (e: any) => {
     setTask(e.target.value);
   };
 
-  // Handle form submission (add task)
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (task.trim() !== "") {
@@ -19,16 +18,16 @@ const Popup = ({ isOpen, togglePopup, addTask }: any) => {
         const newTask = await apiClient.post(APIConstants.ADD_TASK, {
           taskname: task,
         });
-        addTask(task); 
+        addTask(task);
         setTask("");
-        togglePopup(); 
+        togglePopup();
       } catch {
         console.error("Failed to add Task");
       }
     }
   };
 
-  if (!isOpen) return null; 
+  if (!isOpen) return null;
 
   return (
     <div className="popup-overlay" onClick={togglePopup}>

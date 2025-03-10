@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
+  webpack: (config, { isServer }) => {
+    // Disable minification
+    config.optimization.minimize = false;
+    return config;
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

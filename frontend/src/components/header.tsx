@@ -4,7 +4,7 @@ import { Helper } from "@/app/_helper/helper";
 import Avatar, { genConfig } from "react-nice-avatar";
 
 function getGreeting() {
-  const hour = new Date().getHours(); // Get the current hour
+  const hour = new Date().getHours();
 
   if (hour >= 6 && hour < 12) {
     return "Good Morning,";

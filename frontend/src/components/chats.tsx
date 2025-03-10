@@ -27,25 +27,21 @@ export default function ChatInterface({ userDetails, groups }: any) {
   useEffect(() => {
     let tempOptions = [{ id: "groups", value: "All Groups" }];
     groups.forEach((group: any) => {
-      console.log(group.GroupName);
       tempOptions.push({ id: group.groupID, value: group.GroupName });
     });
     tempOptions.push({ id: "tasks", value: "Tasks" });
     tempOptions.push({ id: "escalations", value: "Escalations" });
     setOptions(tempOptions);
 
-    // Load stored state from sessionStorage
     const savedMessages = sessionStorage.getItem("chatMessages");
     const savedDataset = sessionStorage.getItem("selectedOption");
 
     if (savedMessages) {
-      console.log(savedMessages);
       setMessages(JSON.parse(savedMessages));
       setHasStartedChat(true);
     }
 
     if (savedDataset) {
-      console.log(savedDataset);
       setDataset(JSON.parse(savedDataset));
     } else {
       setDataset(tempOptions[0]);
@@ -116,7 +112,6 @@ export default function ChatInterface({ userDetails, groups }: any) {
           setMessages(newMessages);
           setTypingMessage([]);
 
-          // Save the updated messages and dataset to sessionStorage
           sessionStorage.setItem("chatMessages", JSON.stringify(newMessages));
           sessionStorage.setItem("selectedOption", JSON.stringify(dataset));
         });
@@ -136,7 +131,7 @@ export default function ChatInterface({ userDetails, groups }: any) {
               options={options}
               onSelect={(value) => {
                 setDataset(value);
-                sessionStorage.setItem("selectedOption", JSON.stringify(value)); // Save to sessionStorage
+                sessionStorage.setItem("selectedOption", JSON.stringify(value));
               }}
             />
           </div>

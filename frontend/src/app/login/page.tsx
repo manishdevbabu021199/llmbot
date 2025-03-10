@@ -21,8 +21,8 @@ export default function Login() {
   }, []);
 
   const encryptCBCFixedIV = (message) => {
-    const key = CryptoJS.enc.Utf8.parse("AAAAAAAAAAAAAAAA");
-    const iv = CryptoJS.enc.Utf8.parse("BBBBBBBBBBBBBBBB");
+    const key = CryptoJS.enc.Utf8.parse(process.env.NEXT_PUBLIC_CRYPTO_KEY);
+    const iv = CryptoJS.enc.Utf8.parse(process.env.NEXT_PUBLIC_CRYPTO_IV);
     const encrypted = CryptoJS.AES.encrypt(message, key, {
       iv,
       mode: CryptoJS.mode.CBC,
@@ -32,7 +32,6 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      console.log(encryptCBCFixedIV(password));
       const payload = { email: email, password: encryptCBCFixedIV(password) };
 
       const response = await axios.post(APIConstants.LOGIN, payload, {

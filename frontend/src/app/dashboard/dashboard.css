@@ -1,4 +1,3 @@
-/* Main grid container */
 .dashboard-container {
   display: grid;
   grid-template-areas:
@@ -6,7 +5,7 @@
     "sidebar main-content";
   grid-template-columns: 250px 1fr;
   grid-template-rows: auto 1fr;
-  gap: 20px; /* Space between grid items */
+  gap: 20px;
   padding: 20px;
   height: 100vh;
   transition: grid-template-columns 0.3s ease;
@@ -25,12 +24,9 @@
   border: 1px solid #8a8a8a;
 }
 
-/* Collapsed sidebar */
 .dashboard-container.collapsed {
   grid-template-columns: 60px 1fr;
 }
-
-/* Floating effect for all sections */
 
 .main-content {
   width: 100%;
@@ -44,12 +40,10 @@
   padding: 20px;
 }
 
-/* Header */
 .header {
   grid-area: header;
 }
 
-/* Sidebar */
 .sidebar {
   grid-area: sidebar;
   transition: width 0.3s ease;
@@ -61,7 +55,6 @@
   padding: 0px;
 }
 
-/* Main content */
 .main-content {
   grid-area: main-content;
   display: flex;
@@ -69,7 +62,6 @@
   align-items: center;
 }
 
-/* Inner grid inside main content */
 .grid-container {
   display: grid;
   grid-template-areas:
@@ -83,7 +75,6 @@
   max-width: 97%;
 }
 
-/* Floating effect for boxes */
 .box {
   background: white;
   padding: 10px;
@@ -95,6 +86,9 @@
 
 .box-slidder {
   border: none;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .box1 {
@@ -114,17 +108,14 @@
   transition: height 0.3s ease;
 }
 
-/* Minimized chat box */
 .box4.minimized {
   height: calc(100vh - 350px);
 }
 
-/* Expanded chat box */
 .box4.expanded {
-  height: calc(100vh - 140px); /* Larger height when expanded */
+  height: calc(100vh - 140px);
 }
 
-/* Toggle button for chat expansion */
 .expand-toggle {
   position: absolute;
   top: 10px;
