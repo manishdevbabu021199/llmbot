@@ -2,7 +2,7 @@
 
 import "./login.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { APIConstants } from "../api.constants";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const encryptCBCFixedIV = (message) => {
     const key = CryptoJS.enc.Utf8.parse("AAAAAAAAAAAAAAAA");

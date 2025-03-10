@@ -1,7 +1,14 @@
+"use client";
 import "./css/sidebar.css";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar({ collapsed, setCollapsed }: any) {
+  const router = useRouter();
+  const logout = () => {
+    localStorage.removeItem("user");
+    router.push("/login");
+  };
   return (
     <aside
       className={`sidebar ${collapsed ? "collapsed" : ""}`}
@@ -25,28 +32,28 @@ export default function Sidebar({ collapsed, setCollapsed }: any) {
           <ul>
             {[
               {
-                src: "/assets/sidebar/dashboard.png",
+                src: "/assets/sidebar/dashboard.svg",
                 label: "Dashboard",
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
               },
               {
-                src: "/assets/sidebar/insights.png",
+                src: "/assets/sidebar/insights.svg",
                 label: "Insights",
                 width: 20,
                 height: 20,
               },
               {
-                src: "/assets/sidebar/task.png",
+                src: "/assets/sidebar/tasks.svg",
                 label: "Tasks",
-                width: 15,
-                height: 15,
+                width: 18,
+                height: 18,
               },
               {
-                src: "/assets/sidebar/sales.png",
+                src: "/assets/sidebar/sales.svg",
                 label: "Sales",
-                width: 15,
-                height: 15,
+                width: 18,
+                height: 18,
               },
             ].map((item, index) => (
               <li
@@ -60,6 +67,7 @@ export default function Sidebar({ collapsed, setCollapsed }: any) {
                   alt={item.label}
                   width={item.width}
                   height={item.height}
+                  unoptimized
                 />
                 {!collapsed && <h3 className="menu-item">{item.label}</h3>}
               </li>
@@ -110,6 +118,7 @@ export default function Sidebar({ collapsed, setCollapsed }: any) {
             <li className="menu-item-container">
               <h3
                 className={`menu-item logout ${collapsed ? "" : "pl-3 py-1"}`}
+                onClick={logout}
               >
                 Logout
               </h3>

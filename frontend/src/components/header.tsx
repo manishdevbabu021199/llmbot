@@ -1,6 +1,7 @@
 import Image from "next/image";
 import "./css/header.css";
 import { Helper } from "@/app/_helper/helper";
+import Avatar, { genConfig } from "react-nice-avatar";
 
 function getGreeting() {
   const hour = new Date().getHours(); // Get the current hour
@@ -22,13 +23,7 @@ export default function Header({ userDetails }: any) {
   return (
     <div className="header-container flex items-center">
       <div className="profile-image">
-        <Image
-          src={`https://avatar.iran.liara.run/public/boy?username=${userDetails?.email}`}
-          alt="Profile"
-          width={60}
-          height={60}
-          unoptimized
-        />
+        <Avatar className="w-15 h-15" {...genConfig(userDetails?.email)} />
       </div>
 
       <div className="greeting-text">

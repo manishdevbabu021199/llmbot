@@ -7,6 +7,7 @@ import Dropdown from "./utility/dropdown";
 import { APIConstants } from "@/app/api.constants";
 import apiClient from "./utility/api/apiClient";
 import { Helper } from "@/app/_helper/helper";
+import Avatar, { genConfig } from "react-nice-avatar";
 
 export default function ChatInterface({ userDetails, groups }: any) {
   const [input, setInput] = useState("");
@@ -170,18 +171,22 @@ export default function ChatInterface({ userDetails, groups }: any) {
         <div className="chat-messages">
           {messages.map((msg, index) => (
             <div key={index} className={`chat-message ${msg.role}`}>
-              <Image
-                src={
-                  msg.role === "user"
-                    ? `https://avatar.iran.liara.run/public/boy?username=${userDetails?.email}`
-                    : "/assets/chat/bot.png"
-                }
-                alt={msg.role}
-                width={30}
-                height={30}
-                className="chat-avatar"
-                unoptimized
-              />
+              {msg.role === "user" ? (
+                <Avatar
+                  className="w-7 h-7"
+                  {...genConfig(userDetails?.email)}
+                />
+              ) : (
+                <Image
+                  src="/assets/chat/bot.png"
+                  alt="system"
+                  width={30}
+                  height={30}
+                  className="chat-avatar"
+                  unoptimized
+                />
+              )}
+
               <div className="chat-bubble">
                 {msg.content.split("\n").map((line, i) => (
                   <p key={i}>{line}</p>

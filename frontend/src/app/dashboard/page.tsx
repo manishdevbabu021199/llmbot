@@ -11,7 +11,7 @@ import withAuth from "@/components/utility/hooks/protectedroute";
 import { useRouter } from "next/navigation";
 import { DashboardService } from "./dashboard.service";
 import Shimmer from "@/components/shimmer";
-
+import Image from "next/image";
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [user, setUser]: any = useState({});
@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [escalation, setEscalation]: any = useState([]);
   const [group, setGroups]: any = useState([]);
   const [isIntialised, setisIntialised] = useState(false);
-  const router = useRouter();
+  const [isChatExpanded, setIsChatExpanded] = useState(false); // Track chat expansion state
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -27,6 +27,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const IntialisePage = async () => {
+      console.log("oo");
       const dashboardService = new DashboardService();
       const taskData = await dashboardService.funGetTasks();
       const escalationData = await dashboardService.funGetEscalations();
@@ -41,8 +42,16 @@ const Dashboard = () => {
 
   if (!user.email) return null;
 
+  const toggleChatExpansion = () => {
+    setIsChatExpanded((prevState) => !prevState); // Toggle chat expansion
+  };
+
   return (
-    <div className={`dashboard-container ${collapsed ? "collapsed" : ""}`}>
+    <div
+      className={`dashboard-container ${collapsed ? "collapsed" : ""} ${
+        isChatExpanded ? "chat-expanded" : ""
+      }`}
+    >
       <header className="header">
         <Header userDetails={user} />
       </header>
@@ -50,30 +59,52 @@ const Dashboard = () => {
 
       <main className="main-content">
         <div className="grid-container">
-          <div className="box box1">
+          {!isChatExpanded && (
+            <>
+              <div className="box box1">
+                {isIntialised ? (
+                  <Groups groups={group}></Groups>
+                ) : (
+                  <Shimmer></Shimmer>
+                )}
+              </div>
+              <div className="box box2">
+                {isIntialised ? (
+                  <Tasks tasks={tasks}></Tasks>
+                ) : (
+                  <Shimmer></Shimmer>
+                )}
+              </div>
+              <div className="box box3">
+                {isIntialised ? (
+                  <Escalation escalations={escalation}></Escalation>
+                ) : (
+                  <Shimmer></Shimmer>
+                )}
+              </div>
+            </>
+          )}
+
+          <div
+            className={`box box4 relative ${
+              isChatExpanded ? "expanded" : "minimized"
+            }`}
+          >
             {isIntialised ? (
-              <Groups groups={group}></Groups>
+              <Chats userDetails={user} groups={group}></Chats>
             ) : (
               <Shimmer></Shimmer>
             )}
-          </div>
-          <div className="box box2">
-            {isIntialised ? <Tasks tasks={tasks}></Tasks> : <Shimmer></Shimmer>}
-          </div>
-          <div className="box box3">
-            {isIntialised ? (
-              <Escalation escalations={escalation}></Escalation>
-            ) : (
-              <Shimmer></Shimmer>
-            )}
-          </div>
-          <div className="box box4">
-            {isIntialised ? (
-               <Chats userDetails={user} groups={group}></Chats>
-            ) : (
-              <Shimmer></Shimmer>
-            )}
-           
+            <button className="expand-toggle" onClick={toggleChatExpansion}>
+              {/* {isChatExpanded ? "Minimize" : "Expand"} */}
+              <Image
+                src="/assets/chat/expand.png"
+                alt="system"
+                width={20}
+                height={20}
+                unoptimized
+              />
+            </button>
           </div>
         </div>
       </main>

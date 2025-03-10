@@ -8,8 +8,14 @@
   grid-template-rows: auto 1fr;
   gap: 20px; /* Space between grid items */
   padding: 20px;
-  min-height: 100vh;
+  height: 100vh;
   transition: grid-template-columns 0.3s ease;
+}
+
+.dashboard-container.chat-expanded .grid-container {
+  grid-template-areas: "box4 box4 box4";
+
+  grid-template-rows: 100%;
 }
 
 .header {
@@ -30,6 +36,7 @@
   width: 100%;
   height: 100%;
 }
+
 .sidebar {
   background: white;
   border-radius: 15px;
@@ -69,7 +76,7 @@
     "box1 box2 box3"
     "box4 box4 box4";
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 200px calc(100% - 215px);
+  grid-template-rows: 200px 1fr;
   gap: 15px;
   width: 100%;
   height: 100%;
@@ -93,12 +100,39 @@
 .box1 {
   grid-area: box1;
 }
+
 .box2 {
   grid-area: box2;
 }
+
 .box3 {
   grid-area: box3;
 }
+
 .box4 {
   grid-area: box4;
+  transition: height 0.3s ease;
+}
+
+/* Minimized chat box */
+.box4.minimized {
+  height: calc(100vh - 350px);
+}
+
+/* Expanded chat box */
+.box4.expanded {
+  height: calc(100vh - 140px); /* Larger height when expanded */
+}
+
+/* Toggle button for chat expansion */
+.expand-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 6px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #8a8a8a;
 }

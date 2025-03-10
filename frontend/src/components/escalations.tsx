@@ -1,5 +1,7 @@
 import "./css/escalations.css";
 import Image from "next/image";
+import Avatar, { genConfig } from "react-nice-avatar";
+
 export default function Escalation({ escalations }: any) {
   return (
     <div className="flex flex-col gap-2">
@@ -25,14 +27,7 @@ export default function Escalation({ escalations }: any) {
               <h5>{escalation.escalationName}</h5>
             </div>
             <div className="flex flex-row gap-1 items-center">
-              <Image
-                className="escalation-image"
-                src={`https://avatar.iran.liara.run/public/boy?username=${escalation.username}`}
-                alt="Notif"
-                width={20}
-                height={20}
-                unoptimized
-              />
+              <Avatar className="w-5 h-5" {...genConfig(escalation.username)} />
               <div className="escalation-raised">
                 {escalation.username.split("@")[0]}
               </div>
