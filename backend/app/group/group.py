@@ -13,7 +13,7 @@ router = APIRouter()
 
 @router.post("/groups/add", dependencies=[Depends(verify_token)])
 def add_group(group: GroupCreate, user_data=Depends(verify_token)):
-    group_id = f"G{uuid.uuid4().hex[:6]}"  # Generate a short unique group ID
+    group_id = f"G{uuid.uuid4().hex[:6]}"  
     group_data = {
         "GroupID": group_id,
         "GroupName": group.GroupName,
@@ -34,7 +34,7 @@ def add_message(group_id: str, message: MessageCreate, user_data=Depends(verify_
     doc = doc_ref.get()
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Group not found")
-    message_id = f"M{uuid.uuid4().hex[:6]}"  # Generate a unique message ID
+    message_id = f"M{uuid.uuid4().hex[:6]}"  
     new_message = {
         "MessageId": message_id,
         "MessageContent": message.MessageContent,

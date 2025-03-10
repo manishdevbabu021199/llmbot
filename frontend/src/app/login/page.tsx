@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import { APIConstants } from "../api.constants";
 import { useRouter } from "next/navigation";
+import CryptoJS from "crypto-js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,10 +14,20 @@ export default function Login() {
   const [error, setError] = useState(null);
   const router = useRouter();
 
+  const encryptCBCFixedIV = (message) => {
+    const key = CryptoJS.enc.Utf8.parse("AAAAAAAAAAAAAAAA");
+    const iv = CryptoJS.enc.Utf8.parse("BBBBBBBBBBBBBBBB");
+    const encrypted = CryptoJS.AES.encrypt(message, key, {
+      iv,
+      mode: CryptoJS.mode.CBC,
+    });
+    return encrypted.toString();
+  };
 
   const handleLogin = async () => {
     try {
-      const payload = { email: email, password: password }; 
+      console.log(encryptCBCFixedIV(password));
+      const payload = { email: email, password: encryptCBCFixedIV(password) };
 
       const response = await axios.post(APIConstants.LOGIN, payload, {
         headers: { "Content-Type": "application/json" },

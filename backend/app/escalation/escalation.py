@@ -13,7 +13,7 @@ router = APIRouter()
 
 @router.post("/escalations/add", dependencies=[Depends(verify_token)])
 def add_escalation(escalation: EscalationCreate, user_data=Depends(verify_token)):
-    escalation_id = str(uuid.uuid4())  # Generate a unique escalation ID
+    escalation_id = str(uuid.uuid4()) 
     escalation_data = {
         "escalationID": escalation_id,
         "escalationName": escalation.escalationName,

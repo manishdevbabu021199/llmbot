@@ -6,26 +6,35 @@ from firebase_admin import credentials, auth
 import requests
 from .models import UserRegister, UserLogin
 import os
+import base64
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
 # Firebase setup
 cred = credentials.Certificate("config/firebase-adminsdk.json")
 firebase_admin.initialize_app(cred)
 
-# Create an API router (instead of a new FastAPI app)
 router = APIRouter()
 
-load_dotenv()
 
-# Get variables from .env
+load_dotenv()
+key = os.getenv("AUTH_KEY")  
+iv = os.getenv("AUTH_IV")  
+iv = iv.encode('utf-8')
 FIREBASE_API_KEY = os.getenv("FIREBASE_API_KEY")
 
-# Firebase API Key (Replace with your key)
+
+def decrypt(enc, key, iv):
+    enc = base64.b64decode(enc)
+    cipher = AES.new(key.encode('utf-8'), AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(enc), 16)
 
 
 @router.post("/auth/register")
 def register_user(user: UserRegister):
     try:
         user_record = auth.create_user(
-            email=user.email, password=user.password)
+            email=user.email, password=decrypt(user.password))
         return {"message": "User registered successfully", "uid": user_record.uid}
     except Exception as e:
         return {"error": str(e)}
@@ -33,10 +42,11 @@ def register_user(user: UserRegister):
 
 @router.post("/auth/login")
 def login_user(user: UserLogin):
+    print(decrypt(user.password, key, iv).decode("utf-8", "ignore"))
     try:
         url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_API_KEY}"
         payload = {"email": user.email,
-                   "password": user.password, "returnSecureToken": True}
+                   "password": decrypt(user.password, key, iv).decode("utf-8", "ignore"), "returnSecureToken": True}
         response = requests.post(url, json=payload)
 
         if response.status_code != 200:
@@ -99,7 +109,6 @@ def validate_token(authorization: str = Header(None)):
 @router.post("/auth/refresh-token")
 def refresh_token(refresh_token: str):
     try:
-        # 🔹 Firebase API to refresh token
         url = f"https://securetoken.googleapis.com/v1/token?key={FIREBASE_API_KEY}"
         payload = {"grant_type": "refresh_token",
                    "refresh_token": refresh_token}
@@ -111,12 +120,10 @@ def refresh_token(refresh_token: str):
 
         data = response.json()
 
-        # 🔹 Get new ID Token & Fetch User Profile
         new_id_token = data["id_token"]
         decoded_token = auth.verify_id_token(new_id_token)
         user_profile = auth.get_user(decoded_token["uid"])
 
-        # 🔹 Generate avatar URL (Gravatar)
         email_hash = hashlib.md5(
             user_profile.email.strip().lower().encode()).hexdigest()
         avatar_url = f"https://www.gravatar.com/avatar/{email_hash}?d=identicon"
